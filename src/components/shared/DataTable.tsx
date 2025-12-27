@@ -152,9 +152,15 @@ export function DataTable<TData>({
     return (
       <div className="flex flex-col items-center justify-center py-12 lg:py-20">
         {emptyImage && (
-          <img src={emptyImage} alt="No data" className="h-28 w-28 lg:h-40 lg:w-40 mb-4" />
+          <img
+            src={emptyImage}
+            alt="No data"
+            className="h-28 w-28 lg:h-40 lg:w-40 mb-4"
+          />
         )}
-        <h3 className="text-lg lg:text-xl font-semibold text-gray-900">No Data !</h3>
+        <h3 className="text-lg lg:text-xl font-semibold text-gray-900">
+          No Data !
+        </h3>
         <p className="text-gray-500 mt-2 text-center max-w-sm text-sm lg:text-base px-4">
           {emptyMessage}
         </p>
@@ -190,7 +196,10 @@ export function DataTable<TData>({
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">
+                  <td
+                    key={cell.id}
+                    className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-600"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

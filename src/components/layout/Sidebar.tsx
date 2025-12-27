@@ -57,7 +57,8 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   const location = useLocation();
-  const { isCollapsed, isMobileOpen, toggleSidebar, closeMobile } = useSidebarStore();
+  const { isCollapsed, isMobileOpen, toggleSidebar, closeMobile } =
+    useSidebarStore();
   const { role, logout } = useAuthStore();
 
   const filteredNavItems = navItems.filter((item) => {
@@ -121,7 +122,11 @@ export function Sidebar() {
             isCollapsed && !isMobileOpen ? "h-20 lg:h-20" : "h-24"
           )}
         >
-          <Link to="/dashboard" className="flex items-center justify-center" onClick={closeMobile}>
+          <Link
+            to="/dashboard"
+            className="flex items-center justify-center"
+            onClick={closeMobile}
+          >
             <img
               src={logoImg}
               alt="Food Management System"
@@ -165,7 +170,9 @@ export function Sidebar() {
                     )}
                   >
                     {item.icon}
-                    {(!isCollapsed || isMobileOpen) && <span>{item.label}</span>}
+                    {(!isCollapsed || isMobileOpen) && (
+                      <span>{item.label}</span>
+                    )}
                   </Link>
                 </li>
               );

@@ -21,9 +21,15 @@ export function DeleteConfirmationModal({
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
       <div className="flex flex-col items-center text-center py-2 sm:py-4">
-        <img src={deleteImg} alt="Delete" className="h-28 w-28 sm:h-40 sm:w-40 mb-3 sm:mb-4" />
+        <img
+          src={deleteImg}
+          alt="Delete"
+          className="h-28 w-28 sm:h-40 sm:w-40 mb-3 sm:mb-4"
+        />
         <h3 className="text-lg sm:text-xl font-bold text-gray-900">{title}</h3>
-        <p className="text-gray-500 mt-2 max-w-xs text-sm sm:text-base">{message}</p>
+        <p className="text-gray-500 mt-2 max-w-xs text-sm sm:text-base">
+          {message}
+        </p>
         <Button
           variant="danger"
           onClick={onConfirm}

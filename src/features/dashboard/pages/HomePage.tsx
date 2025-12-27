@@ -54,7 +54,10 @@ export function HomePage() {
           </p>
         </div>
         <Link to="/dashboard/recipes" className="flex-shrink-0">
-          <Button rightIcon={<ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" />} className="w-full sm:w-auto">
+          <Button
+            rightIcon={<ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" />}
+            className="w-full sm:w-auto"
+          >
             Fill Recipes
           </Button>
         </Link>

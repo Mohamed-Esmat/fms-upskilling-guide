@@ -84,7 +84,9 @@ export function Modal({
         )}
         {title && (
           <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 pr-8">{title}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 pr-8">
+              {title}
+            </h2>
           </div>
         )}
         <div className="p-4 sm:p-6">{children}</div>
