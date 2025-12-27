@@ -12,11 +12,13 @@ export function DashboardLayout() {
       <TopBar />
       <main
         className={cn(
-          "pt-20 min-h-screen transition-all duration-300",
-          isCollapsed ? "pl-20" : "pl-64"
+          "pt-16 lg:pt-20 min-h-screen transition-all duration-300",
+          // No left padding on mobile, responsive on desktop
+          "pl-0 lg:pl-64",
+          isCollapsed && "lg:pl-20"
         )}
       >
-        <div className="p-6">
+        <div className="p-4 lg:p-6">
           <Outlet />
         </div>
       </main>

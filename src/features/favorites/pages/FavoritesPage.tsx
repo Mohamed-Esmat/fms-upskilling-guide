@@ -89,14 +89,14 @@ export function FavoritesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <PageHeader
         title="My"
         highlightedText="Favorites"
         description="View all your favorite recipes in one place"
       />
 
-      <div className="bg-white rounded-2xl p-6">
+      <div className="bg-white rounded-xl lg:rounded-2xl p-4 sm:p-6">
         <TableHeader title="Favorite Recipes" subtitle="Your saved recipes" />
 
         <DataTable

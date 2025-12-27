@@ -51,21 +51,30 @@ export const useAuthStore = create<AuthState>()(
 // Sidebar state
 interface SidebarState {
   isCollapsed: boolean;
+  isMobileOpen: boolean;
   toggleSidebar: () => void;
   setCollapsed: (collapsed: boolean) => void;
+  openMobile: () => void;
+  closeMobile: () => void;
 }
 
 export const useSidebarStore = create<SidebarState>()(
   persist(
     (set) => ({
       isCollapsed: false,
+      isMobileOpen: false,
       toggleSidebar: () =>
         set((state) => ({ isCollapsed: !state.isCollapsed })),
       setCollapsed: (collapsed) => set({ isCollapsed: collapsed }),
+      openMobile: () => set({ isMobileOpen: true }),
+      closeMobile: () => set({ isMobileOpen: false }),
     }),
     {
       name: "sidebar-storage",
       storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        isCollapsed: state.isCollapsed,
+      }),
     }
   )
 );

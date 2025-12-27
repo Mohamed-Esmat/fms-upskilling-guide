@@ -150,12 +150,12 @@ export function DataTable<TData>({
 
   if (data.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20">
+      <div className="flex flex-col items-center justify-center py-12 lg:py-20">
         {emptyImage && (
-          <img src={emptyImage} alt="No data" className="h-40 w-40 mb-4" />
+          <img src={emptyImage} alt="No data" className="h-28 w-28 lg:h-40 lg:w-40 mb-4" />
         )}
-        <h3 className="text-xl font-semibold text-gray-900">No Data !</h3>
-        <p className="text-gray-500 mt-2 text-center max-w-sm">
+        <h3 className="text-lg lg:text-xl font-semibold text-gray-900">No Data !</h3>
+        <p className="text-gray-500 mt-2 text-center max-w-sm text-sm lg:text-base px-4">
           {emptyMessage}
         </p>
       </div>
@@ -165,15 +165,15 @@ export function DataTable<TData>({
   return (
     <div className="w-full">
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="w-full">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 -mx-4 sm:mx-0">
+        <table className="w-full min-w-[600px]">
           <thead className="bg-gray-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="px-4 py-3 text-left text-sm font-semibold text-gray-700"
+                    className="px-3 lg:px-4 py-3 text-left text-xs lg:text-sm font-semibold text-gray-700 whitespace-nowrap"
                   >
                     {header.isPlaceholder
                       ? null
@@ -190,7 +190,7 @@ export function DataTable<TData>({
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-3 text-sm text-gray-600">
+                  <td key={cell.id} className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -202,18 +202,18 @@ export function DataTable<TData>({
 
       {/* Pagination */}
       {pageCount > 1 && (
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-1 sm:gap-2 mt-4 lg:mt-6 flex-wrap">
           <button
             onClick={() => onPageChange?.(currentPage - 1)}
             disabled={currentPage === 1}
             className={cn(
-              "flex items-center justify-center h-10 w-10 rounded-lg border transition-colors",
+              "flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-lg border transition-colors",
               currentPage === 1
                 ? "border-gray-200 text-gray-300 cursor-not-allowed"
                 : "border-gray-300 text-gray-600 hover:bg-gray-50"
             )}
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
 
           {paginationNumbers.map((page, index) =>
@@ -222,7 +222,7 @@ export function DataTable<TData>({
                 key={index}
                 onClick={() => onPageChange?.(page)}
                 className={cn(
-                  "flex items-center justify-center h-10 w-10 rounded-lg border transition-colors",
+                  "flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-lg border transition-colors text-sm",
                   currentPage === page
                     ? "bg-green-500 border-green-500 text-white"
                     : "border-gray-300 text-gray-600 hover:bg-gray-50"
@@ -231,7 +231,7 @@ export function DataTable<TData>({
                 {page}
               </button>
             ) : (
-              <span key={index} className="px-2 text-gray-400">
+              <span key={index} className="px-1 sm:px-2 text-gray-400 text-sm">
                 {page}
               </span>
             )
@@ -241,13 +241,13 @@ export function DataTable<TData>({
             onClick={() => onPageChange?.(currentPage + 1)}
             disabled={currentPage === pageCount}
             className={cn(
-              "flex items-center justify-center h-10 w-10 rounded-lg border transition-colors",
+              "flex items-center justify-center h-8 w-8 sm:h-10 sm:w-10 rounded-lg border transition-colors",
               currentPage === pageCount
                 ? "border-gray-200 text-gray-300 cursor-not-allowed"
                 : "border-gray-300 text-gray-600 hover:bg-gray-50"
             )}
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>
       )}

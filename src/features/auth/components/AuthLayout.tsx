@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import authBgImg from "@/assets/images/auth-bg.png";
-import logoImg from "@/assets/images/logo.png";
+import logoImg from "@/assets/images/logo2.png";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
+    <div className="min-h-screen flex items-center justify-center p-3 sm:p-4 relative">
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -26,14 +26,14 @@ export function AuthLayout({ children }: AuthLayoutProps) {
       </div>
 
       {/* Form container */}
-      <div className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+      <div className="relative z-10 w-full max-w-md bg-white rounded-xl sm:rounded-2xl shadow-2xl p-5 sm:p-6 lg:p-8">
         {/* Logo */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 sm:mb-8">
           <Link to="/" className="block">
             <img
               src={logoImg}
               alt="Food Management System"
-              className="h-16 w-auto object-contain"
+              className="h-12 sm:h-14 lg:h-40 w-auto object-contain"
             />
           </Link>
         </div>

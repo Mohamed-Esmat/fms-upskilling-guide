@@ -60,7 +60,7 @@ export function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm overflow-y-auto"
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
@@ -68,7 +68,7 @@ export function Modal({
       <div
         ref={modalRef}
         className={cn(
-          "relative w-full bg-white rounded-2xl shadow-xl",
+          "relative w-full bg-white rounded-xl sm:rounded-2xl shadow-xl my-auto",
           "animate-in fade-in-0 zoom-in-95 duration-200",
           sizes[size]
         )}
@@ -76,18 +76,18 @@ export function Modal({
         {showCloseButton && (
           <button
             onClick={onClose}
-            className="absolute right-4 top-4 p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="absolute right-3 sm:right-4 top-3 sm:top-4 p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors z-10"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
           </button>
         )}
         {title && (
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+          <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 pr-8">{title}</h2>
           </div>
         )}
-        <div className="p-6">{children}</div>
+        <div className="p-4 sm:p-6">{children}</div>
       </div>
     </div>,
     document.body

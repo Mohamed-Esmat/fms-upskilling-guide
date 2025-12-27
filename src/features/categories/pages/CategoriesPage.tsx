@@ -129,14 +129,14 @@ export function CategoriesPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <PageHeader
         title="Categories"
         highlightedText="Items"
         description="You can now add your items that any user can order it from the Application and you can edit"
       />
 
-      <div className="bg-white rounded-2xl p-6">
+      <div className="bg-white rounded-xl lg:rounded-2xl p-4 sm:p-6">
         <TableHeader
           title="Category Table Details"
           subtitle="You can check all details"

@@ -105,14 +105,14 @@ export function UsersPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <PageHeader
         title="Users"
         highlightedText="List"
         description="You can now view and manage all users in the system"
       />
 
-      <div className="bg-white rounded-2xl p-6">
+      <div className="bg-white rounded-xl lg:rounded-2xl p-4 sm:p-6">
         <TableHeader
           title="User Table Details"
           subtitle="You can check all details"

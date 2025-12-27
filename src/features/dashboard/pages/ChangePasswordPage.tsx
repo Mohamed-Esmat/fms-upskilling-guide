@@ -33,14 +33,14 @@ export function ChangePasswordPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       <PageHeader
         title="Change"
         highlightedText="Password"
         description="Update your password to keep your account secure"
       />
 
-      <div className="bg-white rounded-2xl p-6 max-w-lg">
+      <div className="bg-white rounded-xl lg:rounded-2xl p-4 sm:p-6 max-w-lg">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input
             type={showOldPassword ? "text" : "password"}
