@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -54,6 +54,26 @@ export function DataTable<TData>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [activeActionRow, setActiveActionRow] = useState<number | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setActiveActionRow(null);
+      }
+    }
+
+    if (activeActionRow !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [activeActionRow]);
 
   // Add actions column if needed
   const tableColumns: ColumnDef<TData>[] = showActions
@@ -62,61 +82,74 @@ export function DataTable<TData>({
         {
           id: "actions",
           header: "",
-          cell: ({ row }) => (
-            <div className="relative">
-              <button
-                onClick={() =>
-                  setActiveActionRow(
-                    activeActionRow === row.index ? null : row.index
-                  )
-                }
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <MoreHorizontal className="h-5 w-5 text-gray-500" />
-              </button>
+          cell: ({ row }) => {
+            // Check if this is one of the last 2 rows to position dropdown above
+            const isLastRows = row.index >= data.length - 2 && data.length > 2;
 
-              {activeActionRow === row.index && (
-                <div className="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10">
-                  {onView && (
-                    <button
-                      onClick={() => {
-                        onView(row.original);
-                        setActiveActionRow(null);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      <Eye className="h-4 w-4" />
-                      View
-                    </button>
-                  )}
-                  {onEdit && (
-                    <button
-                      onClick={() => {
-                        onEdit(row.original);
-                        setActiveActionRow(null);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      <Pencil className="h-4 w-4" />
-                      Edit
-                    </button>
-                  )}
-                  {onDelete && (
-                    <button
-                      onClick={() => {
-                        onDelete(row.original);
-                        setActiveActionRow(null);
-                      }}
-                      className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Delete
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          ),
+            return (
+              <div
+                className="relative"
+                ref={activeActionRow === row.index ? dropdownRef : null}
+              >
+                <button
+                  onClick={() =>
+                    setActiveActionRow(
+                      activeActionRow === row.index ? null : row.index
+                    )
+                  }
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <MoreHorizontal className="h-5 w-5 text-gray-500" />
+                </button>
+
+                {activeActionRow === row.index && (
+                  <div
+                    className={cn(
+                      "absolute right-0 w-32 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10",
+                      isLastRows ? "bottom-full mb-1" : "top-full mt-1"
+                    )}
+                  >
+                    {onView && (
+                      <button
+                        onClick={() => {
+                          onView(row.original);
+                          setActiveActionRow(null);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <Eye className="h-4 w-4" />
+                        View
+                      </button>
+                    )}
+                    {onEdit && (
+                      <button
+                        onClick={() => {
+                          onEdit(row.original);
+                          setActiveActionRow(null);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <Pencil className="h-4 w-4" />
+                        Edit
+                      </button>
+                    )}
+                    {onDelete && (
+                      <button
+                        onClick={() => {
+                          onDelete(row.original);
+                          setActiveActionRow(null);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          },
         },
       ]
     : columns;
@@ -152,9 +185,15 @@ export function DataTable<TData>({
     return (
       <div className="flex flex-col items-center justify-center py-12 lg:py-20">
         {emptyImage && (
-          <img src={emptyImage} alt="No data" className="h-28 w-28 lg:h-40 lg:w-40 mb-4" />
+          <img
+            src={emptyImage}
+            alt="No data"
+            className="h-28 w-28 lg:h-40 lg:w-40 mb-4"
+          />
         )}
-        <h3 className="text-lg lg:text-xl font-semibold text-gray-900">No Data !</h3>
+        <h3 className="text-lg lg:text-xl font-semibold text-gray-900">
+          No Data !
+        </h3>
         <p className="text-gray-500 mt-2 text-center max-w-sm text-sm lg:text-base px-4">
           {emptyMessage}
         </p>
@@ -190,7 +229,10 @@ export function DataTable<TData>({
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-600">
+                  <td
+                    key={cell.id}
+                    className="px-3 lg:px-4 py-3 text-xs lg:text-sm text-gray-600"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

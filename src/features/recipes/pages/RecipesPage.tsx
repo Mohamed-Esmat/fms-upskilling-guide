@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ColumnDef } from "@tanstack/react-table";
 import { PageHeader } from "@/components/layout";
@@ -10,15 +10,22 @@ import {
 } from "@/components/shared";
 import { Modal } from "@/components/ui";
 import { useRecipes, useDeleteRecipe, useTags, useCategories } from "../hooks";
+import {
+  useFavorites,
+  useAddToFavorites,
+  useRemoveFromFavorites,
+} from "@/features/favorites/hooks";
 import { getImageUrl, formatPrice, truncateText } from "@/lib/utils";
 import { useAuthStore } from "@/store";
 import type { Recipe } from "@/types";
 import noDataImg from "@/assets/images/no-data.svg";
+import { Heart } from "lucide-react";
 
 export function RecipesPage() {
   const navigate = useNavigate();
   const { role } = useAuthStore();
   const isAdmin = role === "admin";
+  const isUser = role === "user";
 
   // State
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,9 +49,51 @@ export function RecipesPage() {
   const { data: categoriesData } = useCategories({ pageSize: 100 });
   const { mutate: deleteRecipe, isPending: isDeleting } = useDeleteRecipe();
 
+  // Favorites hooks (only for users)
+  const { data: favoritesData } = useFavorites(
+    isUser ? { pageSize: 1000, pageNumber: 1 } : undefined
+  );
+  const { mutate: addToFavorites, isPending: isAddingFavorite } =
+    useAddToFavorites();
+  const { mutate: removeFromFavorites, isPending: isRemovingFavorite } =
+    useRemoveFromFavorites();
+
+  // Get set of favorite recipe IDs for quick lookup
+  const favoriteRecipeIds = useMemo(() => {
+    if (!favoritesData?.data) return new Set<number>();
+    return new Set(favoritesData.data.map((fav) => fav.recipe.id));
+  }, [favoritesData]);
+
+  // Get favorite ID by recipe ID (needed for removal)
+  const getFavoriteId = useCallback(
+    (recipeId: number) => {
+      const favorite = favoritesData?.data?.find(
+        (fav) => fav.recipe.id === recipeId
+      );
+      return favorite?.id;
+    },
+    [favoritesData]
+  );
+
+  // Handle toggle favorite
+  const handleToggleFavorite = useCallback(
+    (recipe: Recipe) => {
+      const isFavorite = favoriteRecipeIds.has(recipe.id);
+      if (isFavorite) {
+        const favoriteId = getFavoriteId(recipe.id);
+        if (favoriteId) {
+          removeFromFavorites(favoriteId);
+        }
+      } else {
+        addToFavorites(recipe.id);
+      }
+    },
+    [favoriteRecipeIds, addToFavorites, removeFromFavorites, getFavoriteId]
+  );
+
   // Table columns
-  const columns: ColumnDef<Recipe>[] = useMemo(
-    () => [
+  const columns: ColumnDef<Recipe>[] = useMemo(() => {
+    const baseColumns: ColumnDef<Recipe>[] = [
       {
         accessorKey: "name",
         header: "Item Name",
@@ -81,9 +130,44 @@ export function RecipesPage() {
         cell: ({ row }) =>
           row.original.category?.map((c) => c.name).join(", ") || "-",
       },
-    ],
-    []
-  );
+    ];
+
+    // Add favorite column for users
+    if (isUser) {
+      baseColumns.push({
+        id: "favorite",
+        header: "Favorite",
+        cell: ({ row }) => {
+          const isFavorite = favoriteRecipeIds.has(row.original.id);
+          const isLoading = isAddingFavorite || isRemovingFavorite;
+          return (
+            <button
+              onClick={() => handleToggleFavorite(row.original)}
+              disabled={isLoading}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            >
+              <Heart
+                className={`h-5 w-5 transition-colors ${
+                  isFavorite
+                    ? "fill-red-500 text-red-500"
+                    : "text-gray-400 hover:text-red-500"
+                }`}
+              />
+            </button>
+          );
+        },
+      });
+    }
+
+    return baseColumns;
+  }, [
+    isUser,
+    favoriteRecipeIds,
+    isAddingFavorite,
+    isRemovingFavorite,
+    handleToggleFavorite,
+  ]);
 
   // Handlers
   const handleView = (recipe: Recipe) => {
