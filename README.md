@@ -2,6 +2,12 @@
 
 A comprehensive Food Management System built with React, TypeScript, and modern web technologies. This project serves as a reference implementation for students learning feature-based architecture and modern React development patterns.
 
+## 🌐 Demo
+
+Check out the live demo hosted on Netlify:
+
+🔗 **[Live Demo](https://fms-upskilling-esmat.netlify.app/)**
+
 ## 🚀 Features
 
 ### Authentication Module
