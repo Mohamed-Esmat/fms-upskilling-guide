@@ -1,0 +1,64 @@
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { useAuthStore } from "@/store";
+import { Button } from "@/components/ui";
+import headerBgImg from "@/assets/images/header-bg.png";
+
+export function HomePage() {
+  const { user } = useAuthStore();
+
+  return (
+    <div className="space-y-6">
+      {/* Welcome Banner */}
+      <div className="relative overflow-hidden rounded-2xl bg-green-500 p-8">
+        {/* Background decorations */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -left-10 top-10 h-32 w-32 rounded-full border-2 border-green-400/30" />
+          <div className="absolute left-1/4 top-0 h-24 w-24 rounded-full border-2 border-green-400/30" />
+          <div className="absolute right-1/3 top-1/2 h-20 w-20 rounded-full border-2 border-green-400/30" />
+        </div>
+
+        <div className="relative flex items-center justify-between">
+          <div className="max-w-xl">
+            <h1 className="text-3xl font-bold text-white">
+              Welcome{" "}
+              <span className="text-green-100">
+                {user?.userName || "User"}!
+              </span>
+            </h1>
+            <p className="mt-2 text-green-100">
+              This is a welcoming screen for the entry of the application, you
+              can now see the options
+            </p>
+          </div>
+
+          <div className="hidden md:block">
+            <img
+              src={headerBgImg}
+              alt="Welcome illustration"
+              className="h-40 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Fill Recipes Card */}
+      <div className="bg-green-50 rounded-2xl p-8 flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">
+            Fill the <span className="text-green-600">Recipes!</span>
+          </h2>
+          <p className="text-gray-600 mt-1">
+            you can now fill the meals easily using the table and form, click
+            here and fill it with the table!
+          </p>
+        </div>
+        <Link to="/dashboard/recipes">
+          <Button rightIcon={<ArrowRight className="h-5 w-5" />}>
+            Fill Recipes
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Person sitting -->
+  <circle cx="100" cy="60" r="30" fill="#FCD34D"/>
+  <path d="M70 90 Q100 120 130 90 L140 180 H60 L70 90" fill="#059669"/>
+  
+  <!-- Phone in hand -->
+  <rect x="85" cy="100" width="30" height="50" rx="5" fill="#1F2937"/>
+  <rect x="88" cy="105" width="24" height="40" rx="2" fill="#374151"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="40" cy="150" r="15" fill="#10B981" opacity="0.3"/>
+  <circle cx="160" cy="40" r="20" fill="#059669" opacity="0.2"/>
+  
+  <!-- Plant -->
+  <ellipse cx="170" cy="180" rx="20" ry="10" fill="#059669"/>
+  <path d="M165 180 Q160 160 170 140" stroke="#059669" stroke-width="3" fill="none"/>
+  <ellipse cx="170" cy="140" rx="10" ry="15" fill="#10B981"/>
+</svg>
