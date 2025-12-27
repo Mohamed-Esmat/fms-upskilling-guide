@@ -33,7 +33,7 @@ export function AuthLayout({ children }: AuthLayoutProps) {
             <img
               src={logoImg}
               alt="Food Management System"
-              className="h-12 sm:h-14 lg:h-40 w-auto object-contain"
+              className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
             />
           </Link>
         </div>
